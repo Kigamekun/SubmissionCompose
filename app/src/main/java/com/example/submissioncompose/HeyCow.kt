@@ -55,6 +55,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.submissioncompose.ui.screen.DetailScreen
@@ -67,9 +68,9 @@ import com.example.submissioncompose.ui.viewmodel.MainViewModel
 
 @Composable
 fun HeyCow(
-    viewModel: MainViewModel,
     modifier: Modifier = Modifier,
 ) {
+    val viewModel = MainViewModel();
     val selectedIndex = remember { mutableStateOf(0) }
     val navController = rememberNavController()
 
@@ -175,7 +176,7 @@ fun CustomBottomBar(
 
     Card(
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 3.dp
+            defaultElevation = 1.dp
         ),
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
@@ -189,8 +190,8 @@ fun CustomBottomBar(
                 NavigationBarItem(
                     icon = {
                         Box(
+
                             modifier = Modifier
-                                .fillMaxHeight()
                                 .padding(horizontal = 12.dp),
                             contentAlignment = Alignment.Center
                         ) {
@@ -247,7 +248,6 @@ fun CustomBottomBar(
                         }
                     },
                     alwaysShowLabel = false,
-                    modifier = Modifier.weight(1f), // Distribute space evenly
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = colorPrimary,
                         unselectedIconColor = Color.Gray
@@ -256,4 +256,13 @@ fun CustomBottomBar(
             }
         }
     }
+}
+
+
+
+@Preview(showBackground = true)
+@Composable
+fun BottomBarPreview() {
+    val viewModel = MainViewModel()
+    HeyCow()
 }

@@ -20,6 +20,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.submissioncompose.ui.theme.SubmissionComposeTheme
 import com.example.submissioncompose.ui.viewmodel.MainViewModel
 import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 
 
 class MainActivity : ComponentActivity() {
@@ -29,6 +32,7 @@ class MainActivity : ComponentActivity() {
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
+        
         super.onCreate(savedInstanceState)
 
         if (!splashScreenShown) {
@@ -41,7 +45,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.background
                     ) {
-                        HeyCow(viewModel)
+                        HeyCow()
                     }
                 }
             }
@@ -50,19 +54,10 @@ class MainActivity : ComponentActivity() {
 
     @RequiresApi(Build.VERSION_CODES.S)
     private fun showSplashScreen() {
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-
         val splashView: View = findViewById(R.id.main)
-
-        ViewCompat.setOnApplyWindowInsetsListener(splashView) { v, insets ->
-            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBarsInsets.left, systemBarsInsets.top, systemBarsInsets.right, systemBarsInsets.bottom)
-            insets
-        }
         Handler().postDelayed({
             splashView.animate()
-                .translationY(-splashView.height.toFloat())
                 .setDuration(500)
                 .withEndAction {
                     splashScreenShown = true
@@ -73,7 +68,7 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.fillMaxSize(),
                                 color = MaterialTheme.colorScheme.background
                             ) {
-                                HeyCow(viewModel)
+                                HeyCow()
                             }
                         }
                     }
