@@ -57,7 +57,7 @@ fun DetailScreen(
 
                 shape = RoundedCornerShape(8.dp),
                 elevation = CardDefaults.cardElevation(
-                    defaultElevation = 8.dp
+                    defaultElevation = 2.dp
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -66,7 +66,7 @@ fun DetailScreen(
                 Image(
                     painter = painterResource(id = cow.image),
                     contentDescription = cow.name,
-                    contentScale = ContentScale.Fit,
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(30.dp)
@@ -79,7 +79,7 @@ fun DetailScreen(
                 colors = CardDefaults.cardColors(containerColor = Color.White),
                 shape = RoundedCornerShape(8.dp),
                 elevation = CardDefaults.cardElevation(
-                    defaultElevation = 8.dp
+                    defaultElevation = 2.dp
                 ),
                 modifier = Modifier.fillMaxWidth()
             ) {
