@@ -9,14 +9,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -82,12 +78,18 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel) {
             SlidingBanner()
         }
         item {
+            SearchBar(
+
+                query = searchQuery, onQueryChange = { searchQuery = it })
+
+        }
+        item {
             Row(
                 modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 20.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Popular Items",
+                    text = "List Cows",
                     style = TextStyle(
                         fontSize = 18.sp,
                     ),
@@ -97,10 +99,8 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel) {
             }
         }
         item {
-            SearchBar(query = searchQuery, onQueryChange = { searchQuery = it })
-            Spacer(modifier = Modifier.height(20.dp))
             PopularCowsList(
-                Cows = filteredCows,
+                cows = filteredCows,
                 onCowClick = { cow ->
                     navController.navigate("detail/${cow.id}")
                 },
@@ -122,7 +122,7 @@ fun SearchBar(query: String, onQueryChange: (String) -> Unit) {
         label = { Text("Search Cows") },
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp),
+            .padding(start = 16.dp, end = 16.dp,bottom=20.dp),
         singleLine = true
     )
 }
@@ -130,7 +130,7 @@ fun SearchBar(query: String, onQueryChange: (String) -> Unit) {
 
 @Composable
 private fun PopularCowsList(
-    Cows: List<Cows>,
+    cows: List<Cows>,
     onCowClick: (Cows) -> Unit,
     onFavoriteClick: (Cows) -> Unit,
     favoriteCows: Set<Int>
@@ -144,7 +144,7 @@ private fun PopularCowsList(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(Cows) { cow ->
+        items(cows) { cow ->
             CowCard(
                 cow = cow,
                 isFavorite = cow.id in favoriteCows,
@@ -163,7 +163,7 @@ private fun SlidingBanner() {
         count = 3,
         state = pagerState,
         itemSpacing = 20.dp,
-    ) { page ->
+    ) { _ ->
         Image(
             modifier = Modifier
                 .fillMaxWidth()
@@ -255,7 +255,6 @@ fun CowCard(
 @Preview(showBackground = true)
 @Composable
 fun BottomBarPreview() {
-    val viewModel = MainViewModel()
     HeyCow()
 }
 

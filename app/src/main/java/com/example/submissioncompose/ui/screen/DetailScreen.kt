@@ -91,8 +91,7 @@ fun DetailScreen(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                                "Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada.",
+                        text = cow.description,
                         style = MaterialTheme.typography.bodyLarge,
                         color = Color.Gray
                     )
