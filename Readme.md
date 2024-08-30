@@ -18,7 +18,7 @@ HeyCow adalah aplikasi yang menampilkan daftar berbagai jenis sapi dengan inform
 
 ### 4. Fitur Pencarian
 - **Pencarian Berdasarkan Kata Kunci:** Pengguna dapat mencari sapi berdasarkan judul. Jika kolom pencarian tidak kosong, aplikasi hanya akan menampilkan data yang sesuai dengan kata kunci yang dimasukkan. Jika kosong, semua data akan ditampilkan.
-- **Menggunakan ViewModel:** Fitur pencarian diimplementasikan menggunakan `ViewModel` untuk memisahkan logika pencarian dari UI.
+- **Menggunakan ViewModel:** Fitur pencarian diimplementasikan menggunakan `ViewModel` untuk memisahkan logika favorite dari UI.
 
 ### 5. Fitur Menambah & Menghapus Data
 - **Tambah & Hapus Data:** Aplikasi memungkinkan pengguna untuk menambah dan menghapus data sapi dalam list utama, favorit, atau keranjang.
