@@ -5,6 +5,11 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 
@@ -32,8 +37,12 @@ import com.example.submissioncompose.navigation.Screen
 import com.example.submissioncompose.ui.screen.MainScreen
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.LocationOn
@@ -56,8 +65,10 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.submissioncompose.ui.screen.DashboardScreen
 import com.example.submissioncompose.ui.screen.DetailScreen
 import com.example.submissioncompose.ui.screen.FavoritesScreen
 import com.example.submissioncompose.ui.screen.ProfileScreen
@@ -70,50 +81,34 @@ import com.example.submissioncompose.ui.viewmodel.MainViewModel
 fun HeyCow(
     modifier: Modifier = Modifier,
 ) {
-    val viewModel = MainViewModel();
+    val viewModel = MainViewModel()
     val selectedIndex = remember { mutableStateOf(0) }
     val navController = rememberNavController()
 
     Surface(modifier = Modifier.fillMaxSize()) {
         Scaffold(
-            topBar = {
-                CustomTopAppBar()
-            },
-            content = {
-                Surface(modifier = Modifier.fillMaxSize(), color = colorPrimary) {
-                    Card(
-                        colors = CardDefaults.cardColors(
-                            containerColor = ghost_white,
-                        ),
-                        shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
-
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 10.dp),
-                    ) {
-                        Box() {
-                            NavHost(
-                                navController = navController,
-                                startDestination = Screen.Home.route,
-                                modifier = Modifier.padding(it)
-                            ) {
-                                composable(Screen.Home.route) {
-                                    MainScreen(navController = navController, viewModel = viewModel)
-                                }
-                                composable(Screen.Favorite.route) {
-                                    FavoritesScreen(viewModel = viewModel, navController = navController)
-                                }
-                                composable(Screen.Profile.route) {
-                                    ProfileScreen()
-                                }
-                                composable("detail/{cowId}") { backStackEntry ->
-                                    val cowId = backStackEntry.arguments?.getString("cowId")
-                                    cowId?.let {
-                                        DetailScreen(cowId = it.toInt(), navController = navController, viewModel = viewModel)
-                                    }
-                                }
-                            }
-                        }
+            content = { paddingValues ->
+                NavHost(
+                    navController = navController,
+                    startDestination = Screen.Home.route,
+                    modifier = Modifier.padding(
+                        start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                        top = paddingValues.calculateTopPadding(),
+                        end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+                        bottom = paddingValues.calculateBottomPadding() + 16.dp // Add extra bottom padding here
+                    )
+                ) {
+                    composable(Screen.Home.route) {
+                        DashboardScreen()
+                    }
+                    composable(Screen.Favorite.route) {
+                        FavoritesScreen(
+                            viewModel = viewModel,
+                            navController = navController,
+                            )
+                    }
+                    composable(Screen.Profile.route) {
+                        ProfileScreen( )
                     }
                 }
             },
@@ -126,53 +121,15 @@ fun HeyCow(
 
 
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CustomTopAppBar() {
-    CenterAlignedTopAppBar(
-        title = {
-            Text(
-                text = "HeyCow",
-                style = TextStyle(
-                    fontStyle = FontStyle.Italic,
-                    fontSize = 22.sp
-                ),
-                color = Color.White
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = { /* Handle navigation icon click */ }) {
-                Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = "Menu",
-                    tint = Color.White
-                )
-            }
-        },
-        actions = {
-            IconButton(onClick = { /* Handle action icon click */ }) {
-                Icon(
-                    imageVector = Icons.Filled.Search,
-                    contentDescription = "Search",
-                    tint = Color.White
-                )
-            }
-        },
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = colorPrimary,
-            titleContentColor = Color.White,
-            actionIconContentColor = Color.White
-        )
-    )
-}
-
 @Composable
 fun CustomBottomBar(
     selectedIndex: MutableState<Int>,
     navController: NavHostController,
 ) {
     val listItems = listOf("Home", "Favorite", "Profile")
+    val navigationBarPadding = WindowInsets.safeDrawing
+        .only(WindowInsetsSides.Bottom)
+        .asPaddingValues()
 
     Card(
         elevation = CardDefaults.cardElevation(
@@ -181,16 +138,16 @@ fun CustomBottomBar(
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp)
+            .padding(bottom=40.dp, start = 16.dp, end = 16.dp)
             .height(64.dp)
     ) {
         NavigationBar(containerColor = Color.White) {
             listItems.forEachIndexed { index, label ->
                 val isSelected = selectedIndex.value == index
                 NavigationBarItem(
+
                     icon = {
                         Box(
-
                             modifier = Modifier
                                 .padding(horizontal = 12.dp),
                             contentAlignment = Alignment.Center
@@ -214,7 +171,6 @@ fun CustomBottomBar(
                     selected = isSelected,
                     onClick = {
                         selectedIndex.value = index
-
                         when (index) {
                             0 -> {
                                 navController.popBackStack(Screen.Home.route, inclusive = false)

@@ -17,6 +17,7 @@ val dark_gray = Color(0xFF54555A)
 val light_gray = Color(0xFF696969)
 val ghost_white = Color(0xFFF8F8F8)
 val text_hint_color = Color(0xFFA7A7A7)
+val colorGreenDark = Color(0xFF20A577)
 
 val colorSecondary = Color(0xFF03DAC5) // Contoh warna sekunder
 val background = Color(0xFFFFFFFF) // Warna latar belakang

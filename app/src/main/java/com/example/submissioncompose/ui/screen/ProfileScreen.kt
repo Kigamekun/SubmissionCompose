@@ -21,29 +21,5 @@ import com.example.submissioncompose.R
 
 @Composable
 fun ProfileScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.team_reksa),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(1.dp)
-                .clip(RoundedCornerShape(16.dp)),
-            contentDescription = "cow_card",
-            contentScale = ContentScale.Crop
-        )
-        Text(text = "Profile" )
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "Name : Reksa Prayoga Syahputra" )
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "Email: reksa.prayoga1012@gmail.com" )
-        Spacer(modifier = Modifier.height(30.dp))
-        Button(onClick = { /* Implement Logout */ }) {
-            Text(text = "Logout")
-        }
-    }
+
 }

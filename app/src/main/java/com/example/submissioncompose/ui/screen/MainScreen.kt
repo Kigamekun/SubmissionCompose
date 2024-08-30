@@ -79,9 +79,7 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel) {
         }
         item {
             SearchBar(
-
                 query = searchQuery, onQueryChange = { searchQuery = it })
-
         }
         item {
             Row(
@@ -95,7 +93,6 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel) {
                     ),
                     modifier = Modifier.weight(1f)
                 )
-
             }
         }
         item {
